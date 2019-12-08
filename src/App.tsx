@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
 const App: React.FC = () => {
+  const [ gifts, setGifts ] = useState<string[]>([]);
+  const [ newGift, setNewGift ] = useState('');
+
+  const handleTextInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setNewGift(value);
+  }
+
+  const addGift = () => {
+    setGifts([...gifts, newGift]);
+    setNewGift('');
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="title">Gift Giver</h1>
+      <ul className="gift-list">
+        {gifts.length ? gifts.map((gift: any, index: number) => {
+        return <li key={index} className="gift-item">{gift}</li>
+        }) : null}
+      </ul>
+      <input 
+        value={newGift} 
+        onChange={handleTextInput} 
+        className="input" 
+        type="text" 
+      />
+      <button 
+        onClick={addGift}
+        className="btn">Add Gift</button>
     </div>
   );
 }
